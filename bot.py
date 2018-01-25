@@ -35,7 +35,13 @@ def whoami(bot, update):
     msg = "You're {}".format(update.effective_user.id)
     bot.sendMessage(chat_id=update.message.chat_id, text=msg)
 
+def zwoCoffee(bot, update, args):
+    genericCoffee(bot, update, args, 2)
+
 def coffee(bot, update, args):
+    genericCoffee(bot, update, args, 1)
+
+def genericCoffee(bot, update, args, count):
     user_id = update.effective_user.id
     if user_id in ALLOWED_USERS:
         # msg = "You're allowed to get some coffee ;)"
@@ -48,12 +54,17 @@ def coffee(bot, update, args):
             except ValueError:
                 pass
         makecoffee()
+        for i in range(1,count):
+            bot.sendMessage(chat_id=update.message.chat_id, text="Next Coffee is in the making ;)")
+            time.sleep(1)
+            makecoffee()
     else:
         msg = "Get outta here..."
     bot.sendMessage(chat_id=update.message.chat_id, text=msg)
 
 dispatcher.add_handler(CommandHandler('start', start))
 dispatcher.add_handler(CommandHandler('coffee', coffee, pass_args=True))
+dispatcher.add_handler(CommandHandler('zwoCoffee', zwoCoffee, pass_args=True))
 dispatcher.add_handler(CommandHandler('whoami', whoami))
 
 updater.start_polling()
