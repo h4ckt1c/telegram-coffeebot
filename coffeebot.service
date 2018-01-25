@@ -1,0 +1,9 @@
+[Unit]
+Description=Coffee-Bot
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python2.7 /root/bot.py
+
+[Install]
+WantedBy=multi-user.target
